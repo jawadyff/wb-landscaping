@@ -622,6 +622,27 @@
   <script src="main.js"></script>
   <script>
     setupContactForm('contactFormHome', 'W&B Landscaping — Home Page Quote Request');
+
+    // Load real Google reviews from Cloudflare Worker
+    fetch('https://wb-reviews-worker.jawadyah.workers.dev')
+      .then(r => r.json())
+      .then(data => {
+        if (!data.reviews || data.reviews.length === 0) return;
+        const grid = document.getElementById('reviewsGrid');
+        grid.innerHTML = data.reviews.map(r => {
+          const initials = r.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+          const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+          return `<div class="review-card">
+            <div class="review-header">
+              <div class="reviewer-avatar">${r.avatar ? `<img src="${r.avatar}" alt="${r.name}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;">` : initials}</div>
+              <div><strong>${r.name}</strong><span class="review-date">${r.date}</span></div>
+            </div>
+            <div class="review-stars">${stars}</div>
+            ${r.text ? `<p class="review-text">${r.text}</p>` : ''}
+          </div>`;
+        }).join('');
+      })
+      .catch(() => {}); // keep static fallback cards on error
   </script>
 </body>
 </html>
