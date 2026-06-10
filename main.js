@@ -172,23 +172,16 @@ function setupContactForm(formId, subject) {
     const city    = (this.querySelector('[name="city"]') || {}).value?.trim() || '';
     const message = (this.querySelector('[name="message"]') || {}).value?.trim() || '';
 
-    const data = new FormData();
-    data.append('access_key', 'YOUR_WEB3FORMS_KEY');
-    data.append('subject', subject || 'New Quote Request — W&B Landscaping');
-    data.append('from_name', 'W&B Landscaping Website');
-    data.append('Name', name);
-    data.append('Phone', phone);
-    data.append('Email', email || 'Not provided');
-    data.append('Service', service);
-    data.append('City', city);
-    data.append('message', `Name: ${name}\nPhone: ${phone}\nEmail: ${email || 'Not provided'}\nService: ${service}\nCity: ${city}\n\nDetails:\n${message}`);
-
     try {
-      const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+      const res  = await fetch('https://wb-contact-worker.jawadyah.workers.dev', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, email, service, city, message, subject: subject || 'New Quote Request — W&B Landscaping' }),
+      });
       const json = await res.json();
 
       if (json.success) {
-        form.innerHTML = '<div style="text-align:center;padding:2.5rem 0"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#2d6a2d" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><h3 style="margin-top:1rem;font-family:Montserrat,sans-serif">Request Sent!</h3><p style="color:#6b7280;margin-top:.5rem">Thanks! We\'ll get back to you within 1 business day.</p></div>';
+        form.innerHTML = '<div style="text-align:center;padding:2.5rem 0"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#2d6a2d" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><h3 style="margin-top:1rem;font-family:Raleway,sans-serif">Request Sent!</h3><p style="color:#6b7280;margin-top:.5rem">Thanks! We\'ll get back to you within 1 business day.</p></div>';
       } else {
         btn.disabled = false;
         btn.textContent = 'Send My Request';
