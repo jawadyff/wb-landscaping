@@ -3,7 +3,7 @@
 
 const RESEND_API_KEY = 're_hwXSEJ45_3jZLjtc4rEnA8EfcPpJsw69w';
 const FROM_EMAIL    = 'noreply@wnblandscapingny.com';
-const TO_EMAIL      = 'wandb.landscanpingservice@gmail.com';
+const TO_EMAILS     = ['jawadyah@outlook.com', 'wandb.landscanpingservice@gmail.com', 'ricardo.leon.mkt@gmail.com'];
 
 export default {
   async fetch(request) {
@@ -57,26 +57,29 @@ export default {
       </div>
     `;
 
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: `W&B Landscaping <${FROM_EMAIL}>`,
-        to: [TO_EMAIL],
-        reply_to: email || undefined,
-        subject: emailSubject,
-        html: htmlBody,
-      }),
-    });
+    const sends = await Promise.all(TO_EMAILS.map(to =>
+      fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: `W&B Landscaping <${FROM_EMAIL}>`,
+          to,
+          reply_to: email || undefined,
+          subject: emailSubject,
+          html: htmlBody,
+        }),
+      })
+    ));
 
-    if (res.ok) {
+    const allOk = sends.every(r => r.ok);
+    if (allOk) {
       return json({ success: true });
     } else {
-      const err = await res.text();
-      return json({ success: false, error: err }, 500);
+      const errors = await Promise.all(sends.filter(r => !r.ok).map(r => r.text()));
+      return json({ success: false, error: errors.join(', ') }, 500);
     }
   }
 };
