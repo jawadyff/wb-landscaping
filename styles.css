@@ -151,19 +151,19 @@ h3 { font-size: 1.2rem; font-weight: 700; }
   z-index: 1000;
   padding: 0;
   transition: all var(--transition);
-  background: transparent;
-}
-/* Over the light hero — use dark text */
-.navbar:not(.scrolled) .nav-logo { color: var(--dark); }
-.navbar:not(.scrolled) .nav-logo img { border-color: rgba(0,0,0,.15); }
-.navbar:not(.scrolled) .nav-links a { color: rgba(28,28,26,.8); }
-.navbar:not(.scrolled) .nav-links a:hover { color: var(--dark); background: rgba(0,0,0,.06); }
-.navbar:not(.scrolled) .nav-links a.active:not(.nav-cta) { color: var(--dark); background: rgba(0,0,0,.06); }
-.navbar:not(.scrolled) .nav-phone { color: var(--dark); }
-.navbar:not(.scrolled) .nav-toggle span { background: var(--dark); }
-.navbar.scrolled {
   background: var(--dark);
   box-shadow: 0 2px 24px rgba(0,0,0,.25);
+}
+.navbar .nav-logo { color: var(--white); }
+.navbar .nav-logo img { border-color: rgba(255,255,255,.2); }
+.navbar .nav-links a { color: rgba(255,255,255,.85); }
+.navbar .nav-links a:hover { color: var(--white); background: rgba(255,255,255,.08); }
+.navbar .nav-links a.active:not(.nav-cta) { color: var(--white); background: rgba(255,255,255,.08); }
+.navbar .nav-phone { color: var(--white); }
+.navbar .nav-toggle span { background: var(--white); }
+.navbar.scrolled {
+  background: var(--dark);
+  box-shadow: 0 2px 24px rgba(0,0,0,.35);
 }
 .nav-container {
   display: grid;
