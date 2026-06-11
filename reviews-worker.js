@@ -20,7 +20,7 @@ export default {
     }
 
     // Fetch fresh from SerpAPI
-    const url = `https://serpapi.com/search.json?engine=google_maps_reviews&data_id=${PLACE_ID}&api_key=${SERP_API_KEY}`;
+    const url = `https://serpapi.com/search.json?engine=google_maps_reviews&data_id=${PLACE_ID}&sort_by=newestFirst&api_key=${SERP_API_KEY}`;
     const res = await fetch(url);
     const data = await res.json();
 
