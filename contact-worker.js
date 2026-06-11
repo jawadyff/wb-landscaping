@@ -3,7 +3,7 @@
 
 const RESEND_API_KEY = 're_hwXSEJ45_3jZLjtc4rEnA8EfcPpJsw69w';
 const FROM_EMAIL    = 'noreply@wnblandscapingny.com';
-const TO_EMAILS     = ['jawadyah@outlook.com', 'wandb.landscanpingservice@gmail.com', 'ricardo.leon.mkt@gmail.com'];
+const TO_EMAILS     = ['wandb.landscanpingservice@gmail.com', 'ricardo.leon.mkt@gmail.com'];
 
 export default {
   async fetch(request) {
